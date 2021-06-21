@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% block title %}Edit User{% endblock %}
+{% block editedScripts %}
+<link rel="stylesheet" href="{{ asset('Custom/css/profileUploader.css') }}">
+{% endblock %}
+{% block body %}
+    <h1>Edit informations</h1>
+
+    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+
+{% endblock %}
+{% block BodyScript %} 
+<script src="{{ asset('Custom/js/profileUploader.js') }}"></script>     
+{% endblock %}

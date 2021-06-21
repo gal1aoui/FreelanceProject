@@ -1,0 +1,62 @@
+{% extends 'Abase.html.twig' %}
+
+{% block title %}Annonces Pannel{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <!-- column -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <!-- title -->
+                
+                <!-- title -->
+            </div>
+            <div class="table-responsive">
+                <table class="table v-middle">
+                    <thead>
+                        <tr class="bg-light">
+                            <th class="border-top-0">Mission</th>
+                            <th class="border-top-0">Name of publisher</th>
+                            <th class="border-top-0">E-mail of publisher</th>
+                            <th class="border-top-0">Category</th>
+                            <th class="border-top-0">Comments</th>
+                            <th class="border-top-0">Edit</th>
+                            <th class="border-top-0">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for article in articles %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="m-r-10"><img src="{{ asset('Uploads/Articles/' ~ article.Picture) }}" width="50px" height="40px" style="border-radius: 15px;">
+                                    </div>
+                                    <div class="">
+                                        <h4 class="m-b-0 font-16">{{ article.title }}</h4>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ article.user.Name }}</td>
+                            <td>{{ article.user.email }}</td>
+                            <td>
+                                <label class="label label-info">{{ article.Category.Title }}</label>
+                            </td>
+                            <td>{{ article.Comments | length}}</td>
+                            <td><a href="{{ path('article_edit', { 'id' : article.id })}}">
+                                <button class="btn btn-outline-warning"><i class="fas fa-edit" style="font-size: 20px;"></i></button>
+                            </a></td>
+                            <td><a class="btn" href="{{ path('admin_ADelete', { 'id' : article.id })}}">
+                                <button class="btn btn-outline-danger"><i class="fa fa-trash" style="font-size: 20px;"></i></button>  
+                                </a></td>
+                        </tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

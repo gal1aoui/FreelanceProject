@@ -1,0 +1,47 @@
+{% extends 'Abase.html.twig' %}
+
+{% block title %}Users Pannel{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <!-- column -->
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Recent Comments</h4>
+            </div>
+            <div class="comment-widgets scrollable">
+                {% for user in users %}
+                <div class="d-flex flex-row comment-row m-t-0">
+                  
+                  {% if user.Picture|first is same as('h') %}
+                    <div class="p-2">
+                        <img src="{{ user.Picture }}" alt="user" width="50" height="50" class="rounded-circle">
+                    </div>
+                    {% else %}
+                    <div class="p-2">
+                        <img src="{{ asset('Uploads/Users/' ~ user.Picture) }}" alt="user" width="50" class="rounded-circle">
+                    </div>
+                    {% endif %}
+                    <div class="comment-text w-100">
+                        <h6 class="font-medium">{{ user.Name }} {{ user.Prename }} </h6>
+                        <span class="m-b-15 d-block">{{ user.email }} </span>
+                        <div class="comment-footer">
+                            <span class="text-muted float-end">{{user.Address}}</span> <span
+                                class="label label-rounded label-primary">{{ user.articles | length}} Posts</span> 
+                                <span class="action-icons">
+                                <a href="javascript:void(0)"><i class="ti-pencil-alt"></i></a>
+                                <a href="{{ path('admin_UDelete', { 'id' : user.id })}}"><i class="ti-trash"></i></a>
+                            </span>
+                        </div>
+                    </div>
+                </div>  
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- column -->
+</div>
+
+{% endblock %}

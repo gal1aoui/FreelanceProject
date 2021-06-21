@@ -1,0 +1,18 @@
+{{ form_start(form) }}
+<div class="containerI">
+    <div class="avatar-upload">
+        <div class="avatar-edit">
+            {{form_widget(form.Picture)}}
+        </div>
+        <div class="avatar-preview">
+            {% if user.Picture|first is same as('h') %}
+            <div id="imagePreview" style="background-image: url({{ app.user.Picture }});"></div>
+            {% else %}
+            <div id="imagePreview" style="background-image: url({{ asset('Uploads/Users/' ~ app.user.Picture) }});"></div>
+          {% endif %}
+        </div>
+    </div>
+</div>
+    {{ form_widget(form) }}
+    <button class="btn btn-outline-success btn-lg btn-block">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

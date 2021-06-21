@@ -1,0 +1,31 @@
+<turbo-frame id="Notification" class="d-none d-lg-block">
+    <div class=" Area p-0" id="Notifications" style="display: none; background-color: #F5F7FA;">
+       <h2> Notifications </h2>
+      <hr>
+      <div class="cont">
+{% for notif in notifications %}
+<div class="col">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-body cleartfix">
+          <div class="media align-items-stretch">
+            <div class="align-self-center">
+                
+              <i class="icon-user success font-large-2 mr-3" style="color: seagreen;"></i>
+            </div>
+            <div class="media-body">
+              <h4>{{ notif.target }}</h4>
+              <span>{{ notif.subject }}</span>
+            </div>
+            <div class="align-self-center mt-4"> 
+              <p>{{ notif.createdAt|ago }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+</div>
+</turbo-frame>

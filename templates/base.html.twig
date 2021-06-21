@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        
+        {% block stylesheets %}
+            {# {{ encore_entry_link_tags('app') }} #}
+            <link rel="icon" href="{{ asset('Custom/LOGO.png') }}">
+            <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+            <link rel="stylesheet" href="https://bootswatch.com/4/simplex/bootstrap.min.css">
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+            <link rel="stylesheet" href="{{ asset('Custom/css/FriendsList.css') }}">
+            <link rel="stylesheet" href="{{ asset('Custom/css/msgToggle.css') }}">
+            <script src="https://kit.fontawesome.com/f5c6240b80.js"></script>
+            <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
+            <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
+        {% endblock %}
+        {% block editedStylesheets %}{% endblock %}
+        {% block javascripts %}
+             {% if app.user %}
+                {{ encore_entry_script_tags('app') }} 
+                {{ encore_entry_link_tags('app') }} 
+             {% endif %}
+             <script src="https://js.stripe.com/v3/"></script>
+            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+            <!-- <script type="module" src="https://cdn.skypack.dev/@hotwired/turbo"></script> -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>         
+            <script src="{{ asset('Custom/js/UserActions.js') }}"></script>
+        {% endblock %}
+        {% block editedScripts %}{% endblock %}
+        <style>
+            .dropdown-submenu {
+              position: relative;
+            }
+            
+            .dropdown-menu2{
+              display: none;
+              list-style:none;
+              margin-left: -40px;
+            }
+            </style>
+            {% if app.user %}
+            <script>
+              document.addEventListener('DOMContentLoaded', function(){
+                let url = new URL('http://localhost:3000/.well-known/mercure');
+                url.searchParams.append('topic', "/notification/{{app.user.email}}");
+                const es = new EventSource(url, {
+                  withCredentials: true
+                });
+                es.onmessage = (event)=>{
+                  information = JSON.parse(event.data);
+                  console.log(information.subject)
+                  $('.cont').prepend('<div class="col"><div class="card"><div class="card-content"><div class="card-body cleartfix"><div class="media align-items-stretch"><div class="align-self-center"><i class="icon-user success font-large-2 mr-3" style="color: seagreen;"></i></div><div class="media-body"><h4>'+information.target+'</h4><span>'+information.subject+'</span></div><div class="align-self-center mt-4"><p>'+information.createdAt+'</p></div></div></div></div></div></div>')
+                  $('#notifs').append('<div class="alert ll alert-success ">'+information.subject+'</div>');
+                  window.setTimeout(() => {
+                  const $alert = document.querySelector('.ll')
+                  $alert.parentNode.removeChild($alert)
+                  }, 5000)
+                }
+              });
+            </script>
+            {% endif %}
+    </head>
+ <body>
+  {{ include ('nav.html.twig') }}
+  {% if app.user %}
+  {{ render(controller('App\\Controller\\UserActions\\FavorisController::index'))}}
+  {{ render(controller('App\\Controller\\HomeController::home'))}}
+  {{ render(controller('App\\Controller\\FollowersController::index'))}}
+  {{ render(controller('App\\Controller\\NotificationsController::index'))}}
+  {% endif %}
+  <div id="notifs" style="top:85%; left:85%; position:fixed; z-index:30;">
+    
+  </div>
+    <div class="container col-lg-6 " style="padding-top: 200px">
+        {% block body %}
+        
+        {% endblock %}
+    </div> 
+    
+    {% block Script %}
+        <script src="{{ asset('Custom/js/toggle.js') }}"></script>
+    <!-- Load Flashy default JavaScript -->
+    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+    <!-- Include Flashy default partial -->
+    {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+    <script>
+        
+    </script>
+    <script src="{{ asset('Custom/js/msgToggle.js') }}"></script>
+    {% endblock %}
+    
+    {% block BodyScript %}      
+    {% endblock %}
+ </body>
+</html>

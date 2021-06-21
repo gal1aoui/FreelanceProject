@@ -1,0 +1,26 @@
+    .contents{
+      border-radius: 12px;
+      background-color: whitesmoke;
+      scroll-behavior: smooth;
+      overflow-y: hidden;
+      overflow-x: hidden;
+    }
+    .cardd{
+      border-radius: 12px;
+      margin-right: 60px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    }
+
+    #Previous{
+      position: relative;
+      float:left;
+      margin-top:-175px;
+    }
+    #Next{
+      position: relative;
+      float:right;
+      margin-top:-175px;
+    }
+    .cardd-body{
+      width: 250px;
+    }

@@ -1,0 +1,28 @@
+<div id="Messages" class="d-none d-lg-block p-1">
+    <div class="d-flex flex-row col-12">
+    <div class="col-11 text">Messages</div>
+    <div class="d-flex flex-row-reverse col">
+      <img src="{{ asset('Custom/svg/Arrow.svg')}}" id="msgarrow" class="msg-toggler">
+    </div>
+  </div>
+    <hr/>
+    <div class="overflow-auto">
+      <ul class="list-group">
+          {% for user in Users %}       
+        <li class="list-group-item d-flex flex-row justify-content-between p-1">
+        <span class="d-flex flex-row p-1">
+            {% if user.URLPhoto|first is same as('h') %}
+          <img src="{{ user.URLPhoto }}" class="rounded-circle mr-2" height="50px" >
+          {% else %}
+          <img src="{{ asset('uploads/Profiles/' ~ user.URLPhoto) }}" class="rounded-circle mr-2" height="50px" >
+          {% endif %}
+          <p class="mt-auto"> {{ user.Nom }} {{ user.Prenom }} </p>
+        </span>
+        <span class="" >
+          <img src="{{ asset('Custom/svg/UserActions/addUser.svg')}}" height="30px" class="mt-2">
+        </span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+</div>

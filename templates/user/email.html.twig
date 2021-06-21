@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit User{% endblock %}
+
+{% block body %}
+    {% if user %}
+    <div class="card">
+    <div class="card-body">
+    <h5 class="card-title"> Good step {{ user.Name }} To be Secure !!</h5>
+        <p class="card-text">
+            Check Your Email it must be done !
+        </p>
+    </div> 
+    </div>
+    {% endif %}
+
+{% endblock %}

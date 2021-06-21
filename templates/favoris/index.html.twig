@@ -1,0 +1,20 @@
+    <div class="Area" id="Favoris" style="display: none; overflow-x:scroll; overflow-y:hidden">
+    <div class="d-flex flex-row">
+
+        {% for i in app.user.Favoris %}
+        {% for article in articles %}
+        {% if article.id == i %}
+
+        <div class="fade show mr-3" style="width: 250px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
+            <div class="d-flex justify-content-between">
+              <h1> {{ article.Title }} </h1>
+              <a href="{{ path('favoris_remove', { id: article.id }) }}" class="btn"> <i class="fas fa-times"></i> </a>
+            </div> 
+           <p class="text-center"> {{ article.Description|slice(0,50) }} ...</p>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+          
+    </div>
+    </div>

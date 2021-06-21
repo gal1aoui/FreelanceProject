@@ -1,0 +1,28 @@
+{% extends 'Abase.html.twig' %}
+
+{% block title %}Categories Pannel{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Categories</h4>
+                <div class="feed-widget">
+                    <ul class="list-style-none feed-body m-0 p-b-20">
+                        {% for category in categories %}
+                        <li class="feed-item d-block">
+                            <div class="feed-icon bg-info"><i class="far fa-bell"></i></div>
+                            <span> {{ category.Title }} </span> <hr>
+                            <span class="ms-auto font-12 text-muted">{{ category.Description }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

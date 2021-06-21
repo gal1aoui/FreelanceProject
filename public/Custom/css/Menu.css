@@ -1,0 +1,6 @@
+.navbar-toggler{
+    top: 0;
+}
+#arrow{
+    transition: 1s; transform:rotate(90deg);
+}

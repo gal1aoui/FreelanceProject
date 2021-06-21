@@ -1,0 +1,35 @@
+<div id="Followers" class="d-none d-lg-block col-3 p-1">
+    <div class="d-flex flex-row col-12">
+    <div class="col-11 text">Following</div>
+    <div class="d-flex flex-row-reverse col">
+      <img src="{{ asset('Custom/svg/Arrow.svg')}}" id="msgarrow" class="msg-toggler">
+    </div>
+  </div>
+    <hr/>
+    <div class="content ">
+      <ul class="list-group">
+          {% for user in Users %}
+          {% if user.id in app.user.friends %}         
+        <li class="list-group-item d-flex flex-row col-12 justify-content-between mb-1">
+
+        <span class="col-2 p-0">
+            {% if user.Picture|first is same as('h') %}
+          <img src="{{ user.Picture }}" class="rounded-circle " height="50px" width="50px">
+          {% else %}
+          <img src="{{ asset('Uploads/Users/' ~ user.Picture) }}" class="rounded-circle ml-0" height="50px" width="50px">
+          {% endif %}
+        </span>
+
+        <span class="col-xl-7 col-6 pt-3 text-center text-xl-left">
+           {{ user.Name }} {{ user.Prename }}
+        </span>
+
+        <span class="col"> 
+              <img src="{{ asset('Custom/svg/UserActions/message.svg')}}" height="40px" class="mt-2 ml-2">
+        </span>
+        </li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+{% form_theme forms 'bootstrap_4_layout.html.twig' %}
+{% block title %}Article{% endblock %}
+{% block editedStylesheets %}
+<link rel="stylesheet" href="{{ asset('Custom/css/comments.css') }}">
+<link rel="stylesheet" href="{{ asset('Custom/css/home.css') }}">
+<script src="https://kit.fontawesome.com/f5c6240b80.js"></script>
+{% endblock %}
+{% block body %}
+<div class="d-flex justify-content-between">
+    
+    {% if app.user == article.User %}
+    <h1 > Your Mission</h1>
+    <div class="nav-item dropdown p-0">
+        <button class="nav-link dropdown btn shadow-none rounded-circle btn-light" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="{{ asset('Custom/svg/option.svg') }}" height="30px"/>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <button class="nav-link btn shadow-none p-0">
+            {{ include('article/_update_form.html.twig') }} 
+            </button>
+            <div class="dropdown-divider"></div>
+            <button class="nav-link btn shadow-none p-0">
+                {{ include('article/_delete_form.html.twig') }}
+            </button>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+
+<section class="articles mt-5 text-center text-md-left">
+    <article class="p-1">
+        <div class="d-flex justify-content-between row">
+        <h2 class="ml-0 mr-5"> {{ article.Title }} </h2>
+        <h2 class="d-flex col flex-row-reverse">{{article.Cost}} DT</h2>
+        </div>
+        <div class="metadata d-flex justify-content-between">
+            <div class="mt-2">
+            Created At {{ article.CreatedAt | date('d-m-Y') }} <img src="{{ asset('Custom/svg/time.svg') }}" height="15px"/> {{ article.CreatedAt | date('H:i') }}
+            <span class="badge badge-danger" title="{{article.Category.Description}}"> {{ article.Category.Title }}</span>
+            <span class="badge badge-warning" > {{ article.Comments | length}} Comments</span>
+        </div>
+        {% if app.user %}
+            <div class="d-block">
+            {{ include('rates/_form.html.twig') }}
+            <h4 class="RatingSum">{{Average}} <i class="fas fa-star stars" style="color:rgba(255, 217, 0, 0.795)"></i></h4>
+            </div>
+        {% else %}
+        <h4 class="RatingSum">{{Average}} <i class="fas fa-star stars" style="color:rgba(255, 217, 0, 0.795)"></i></h4>
+
+        {% endif %}
+        </div>
+        <div class="content">
+            <img src="{{ asset('Uploads/Articles/' ~ article.Picture) }}" id="img"/>
+            <p style="word-break: break-all;">{{article.Description}}</p>
+        </div>
+    </article>
+</section>
+
+{{ include('comment/new.html.twig') }}
+
+{% endblock %}
+{% block BodyScript %}
+<script src="{{ asset('Custom/js/comments.js') }}"></script>
+<script>
+    function submitData(event, rate) {
+        event.preventDefault();
+        const url = $('.Rates').attr('action');
+        axios.post(url, {
+            rate: rate
+        })
+        .then(res => {
+            $('h4.RatingSum').text("Rate: "+((res.data.Total)/res.data.Stars)+"/5")
+        })
+        .catch(err => console.log(err));
+    }
+
+    var star1 = $('#s1').click((event) => {
+        submitData(event, 1);
+    });
+    var star2 = $('#s2').click(() => {
+        submitData(event, 2);
+    });
+    var star3 = $('#s3').click(() => {
+        submitData(event, 3);
+    });
+    var star4 = $('#s4').click(() => {
+        submitData(event, 4);
+    });
+    var star5 = $('#s5').click(() => {
+        submitData(event, 5);
+    });
+</script>
+{% endblock %}

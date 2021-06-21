@@ -1,0 +1,48 @@
+<form  action=" {{path('rates',{ 'id' : article.id }) }} " class="Rates" method="POST">
+    <div class="star-widget">
+    <button class="btn shadow-none p-0 btnRate" name="rate" value="1"><i class="far fa-star stars" star="1" id="s1"></i></button>
+    <button class="btn shadow-none p-0 btnRate" name="rate" value="2"><i class="far fa-star stars" star="2" id="s2"></i></button>
+    <button class="btn shadow-none p-0 btnRate" name="rate" value="3"><i class="far fa-star stars" star="3" id="s3"></i></button>
+    <button class="btn shadow-none p-0 btnRate" name="rate" value="4"><i class="far fa-star stars" star="4" id="s4"></i></button>
+    <button class="btn shadow-none p-0 btnRate" name="rate" value="5"><i class="far fa-star stars" star="5" id="s5"></i></button>
+    </div>
+</form>
+
+<style>
+    .stars{
+        font-size: 30px;
+        color: rgba(255, 217, 0, 0.795);
+    }
+
+</style>
+<script>
+   $('document').ready(function() {
+        $('i.stars').hover(function(){
+           var nbr = $(this).attr('star');
+            for(i=1; i<=nbr; i++){
+                $('#s'+i).css({
+                    color:'	#ffbf00'
+                })
+            }
+        },
+        function(){
+            var nbr = $(this).attr('star');
+            for(i=1; i<=nbr; i++){
+                $('#s'+i).css({
+                    color:'gold'
+                })
+            }
+        });
+        $('button.btn').click(function(){
+            var nbr = $(this).attr('value');
+            nbr++;
+            for( i=1; i< nbr; i++ ){
+                $('#s'+i).removeClass('far').addClass('fas');
+            }
+            for( i = nbr ; i <= 5; i++ ){
+            $('#s'+i).removeClass('fas').addClass('far');
+            } 
+        });
+        
+   });
+</script>

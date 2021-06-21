@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ArticleController!{% endblock %}
+{% block editedStylesheets %}
+<link rel="stylesheet" href="{{ asset('Custom/css/home.css') }}">
+<link rel="stylesheet" href="{{ asset('Custom/css/carousel.css') }}">
+
+
+
+{% endblock %}
+{% block body %}
+
+{% for article in articles %}
+
+<section class="articles mt-5 text-center text-md-left">
+    <article class="p-1">
+        <h2 data-toggle="tooltip" data-placement="bottom" title="Tooltip on top"> {{ article.Title }} </h2>
+        <div class="metadata">
+          <img src="{{ asset('Custom/svg/time.svg') }}" height="15px" class="mr-2"/> {{ article.CreatedAt | ago }}
+        </div>
+        <div class="content">
+            <img src="{{ asset('Uploads/Articles/' ~ article.Picture) }}" id="img" height="400" width="200"/>
+            <p style="word-break: break-all;" class="mt-2">{{article.Description|slice(0,200) }} {% if article.Description|length < 200 %} . {% else %} ... {% endif %}</p>
+          <div class="d-flex justify-content-between">
+            <form action="{{ path('article_show', {'id': article.id}) }}">
+              <button class="btn btn-outline-info shadow-none">
+                Details ...
+              </button>
+            </form>
+            {% if app.user %}
+            {% if article.user != app.user %}
+            {% if article.id in app.user.Favoris %}
+            <button class="btn btn-danger shadow-none disabled">
+              Added
+            </button>
+            {% else %}
+            
+            <form action="{{ path('favoris_add', { 'id' : article.id }) }}" method="POST">
+              <button class="btn btn-outline-danger shadow-none" name="add" value="{{ article.id }}">
+                Add To Favoris
+              </button>
+            </form>
+            
+            {% endif %}
+            {% endif %}
+            {% endif %}
+          </div>
+        </div>
+    </article>
+</section>
+{% endfor %}
+{% endblock %}

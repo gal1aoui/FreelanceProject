@@ -1,0 +1,96 @@
+<hr/>
+<section id="comments" class="mt-5">
+{% for comment in article.Comments %}
+<div class="d-flex justify-content-left row comment{{comment.id}} comment mb-3" check-target="check{{comment.id}}" uncheck-target="uncheck{{comment.id}}">
+    <div class="col">
+            <div class="d-sm-flex d-block  flex-row user p-2">
+        {% if comment.User.Picture|first is same as('h') %}
+        <img class="rounded-circle" src="{{comment.User.Picture}}" width="50" height="50">
+        {% else %}
+        <img class="rounded-circle" src="{{ asset('Uploads/Users/' ~ comment.User.Picture) }}" width="50" height="50">
+        {% endif %}	                    
+    <div class="d-flex flex-column col-6 ml-2">
+        <span class="name font-weight-bold">{{comment.User.Name}} {{ comment.User.Prename }}</span>
+        <span>{{ comment.CreatedAt|ago }}</span>    
+    </div>
+    <div class="d-flex col flex-row-reverse">
+        <span class="mr-3 p-1 Cost"> {{comment.Offer}} DT </span>
+    </div>
+
+    {% if app.user == article.User %}
+      <div class="d-flex col flex-row-reverse Cost p-1" id="Act">
+        {% if comment.Status is null %}
+           <a class="link" href="{{ path('comment_accept', {'id' : comment.id}) }}"> <img src="{{ asset('Custom/svg/Comment/check.svg') }}" height="40" class="ml-1 check check{{comment.id}} rounded-circle" target="comment{{comment.id}}"> </a>
+           <a class="link" href="{{ path('comment_refuse', {'id' : comment.id}) }}"> <img src="{{ asset('Custom/svg/Comment/uncheck.svg') }}" height="40" class=" uncheck uncheck{{comment.id}} rounded-circle" target="comment{{comment.id}}"> </a>
+        {% elseif comment.Status == 0 %}
+            <img src="{{ asset('Custom/svg/Comment/uncheck.svg') }}" height="40" class=" uncheck uncheck{{comment.id}} rounded-circle" target="comment{{comment.id}}">
+        {% else %}
+            <img src="{{ asset('Custom/svg/Comment/check.svg') }}" height="40" class="ml-1 check check{{comment.id}} rounded-circle" target="comment{{comment.id}}">
+            <button class="btn btn-outline-success shadow-none mr-2 rounded-circle" id="checkout-button"> Pay</button>
+            
+            <script type="text/javascript">
+    
+                // Create an instance of the Stripe object with your publishable API key
+                var stripe = Stripe('pk_test_51IyD2fKlRL2YJsUlVAXt4gdgUaMTsnTCYquTmPNYpXhIF7tKbX0n675Bn0z5l6OxtYRajs70aVYacSzRtnXRleG900FIRdHInq');
+                var checkoutButton = document.getElementById('checkout-button');
+            
+                checkoutButton.addEventListener('click', function() {
+                  // Create a new Checkout Session using the server-side endpoint you
+                  // created in step 3.
+                  fetch('/create-checkout-session/{{article.id}}/{{comment.id}}', {
+                    method: 'POST',
+                  })
+                  .then(function(response) {
+                    return response.json();
+                  })
+                  .then(function(session) {
+                    return stripe.redirectToCheckout({ sessionId: session.id });
+                  })
+                  .then(function(result) {
+                    // If `redirectToCheckout` fails due to a browser or network
+                    // error, you should display the localized error message to your
+                    // customer using `error.message`.
+                    if (result.error) {
+                      alert(result.error.message);
+                    }
+                  })
+                  .catch(function(error) {
+                    console.error('Error:', error);
+                  });
+                });
+            
+              </script>
+        {% endif %}
+      </div>
+    {% endif %} 
+ 
+        </div>
+            <hr/>
+            <div class="p-2">
+                <p class="comment-content">{{ comment.Content}}</p>
+            </div>
+        </div>
+</div>
+{% endfor %}
+<hr/>
+    {% if app.user %}
+    {% if app.user == article.User %}
+    {% else %}
+    <section class="mb-5">
+{{ include('comment/_form.html.twig') }}
+    </section>
+    {% endif %}
+{% else %}
+        <a class="btn btn-info" href="{{ path('app_login') }}">
+            <h2> You must be logged to comment </h2>
+        </a>
+{% endif %}
+<script>
+    $('a.link').on('click',function(event){
+        event.preventDefault();
+        const url = this.href;
+        axios.get(url).then(function(res){
+            document.location.reload()
+        })
+    }); 
+</script>
