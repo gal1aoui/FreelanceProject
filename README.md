@@ -14,7 +14,7 @@ start migrating tables by -> php bin/console make:migration
 
 6- cd..
 
-7- symfony serve
+7- symfony serv // Or // symfony server:start 
 
 8- npm run watch
 
