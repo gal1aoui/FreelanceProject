@@ -1,6 +1,7 @@
 # Symfony-Mercure-FreelanceProject
-
+create db after configuring url of db in .env file
 start migrating tables by -> php bin/console make:migration
+start migrating with db -> php bin/console doctrine:schema:update --force
 
 1- git clone https://github.com/gal1aoui/Symfony-Mercure-FreelanceProject.git
 
